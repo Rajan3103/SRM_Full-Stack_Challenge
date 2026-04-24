@@ -1,0 +1,27 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven Wrapper (Optional: keep if you want others to build without mvn)
+#.mvn/
+#mvnw
+#mvnw.cmd

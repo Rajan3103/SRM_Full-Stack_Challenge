@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFHL | Hierarchy Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        textarea {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1rem;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px var(--primary-glow);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        .hierarchy-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .hierarchy-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .badge-cycle { background: var(--error); color: white; }
+        .badge-depth { background: var(--primary); color: white; }
+
+        .tree-view {
+            margin-top: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .tree-node {
+            margin-left: 1.5rem;
+            border-left: 1px dashed var(--border);
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .tree-node::before {
+            content: '└─';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--border);
+        }
+
+        .error-msg {
+            color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: none;
+        }
+
+        .warning-section {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .warning-title {
+            color: var(--warning);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .node-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+            display: inline-block;
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BFHL Challenge</h1>
+            <p class="subtitle">Hierarchical Data Processor</p>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="dataInput">Enter Edges (e.g. A->B, B->C)</label>
+                <textarea id="dataInput" placeholder="A->B, B->C, C->D, hello, 1->2..."></textarea>
+                <div id="errorMessage" class="error-msg"></div>
+                <button id="submitBtn">
+                    <span id="btnText">Process Data</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="resultsSection" class="results-section">
+            <div class="summary-grid" id="summaryGrid"></div>
+
+            <div id="warningSection" class="warning-section" style="display: none;">
+                <div id="invalidEntries"></div>
+                <div id="duplicateEdges" style="margin-top: 1rem;"></div>
+            </div>
+
+            <div class="hierarchy-list" id="hierarchyList"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/bfhl';
+
+        const submitBtn = document.getElementById('submitBtn');
+        const dataInput = document.getElementById('dataInput');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultsSection = document.getElementById('resultsSection');
+        const summaryGrid = document.getElementById('summaryGrid');
+        const warningSection = document.getElementById('warningSection');
+        const invalidEntriesDiv = document.getElementById('invalidEntries');
+        const duplicateEdgesDiv = document.getElementById('duplicateEdges');
+        const hierarchyList = document.getElementById('hierarchyList');
+
+        submitBtn.addEventListener('click', async () => {
+            const input = dataInput.value.trim();
+            if (!input) {
+                showError('Please enter some data.');
+                return;
+            }
+
+            const dataArray = input.split(/[,\n]/).map(s => s.trim()).filter(s => s);
+
+            setLoading(true);
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: dataArray })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                displayResults(result);
+            } catch (err) {
+                showError(`API Error: ${err.message}. Please ensure the backend is running at ${API_URL}`);
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            document.getElementById('btnText').textContent = isLoading ? 'Processing...' : 'Process Data';
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.style.display = 'block';
+            resultsSection.style.display = 'none';
+        }
+
+        function displayResults(data) {
+            resultsSection.style.display = 'block';
+            
+            summaryGrid.innerHTML = `
+                <div class="summary-card">
+                    <span class="summary-value">${data.summary.total_trees}</span>
+                    <span class="summary-label">Total Trees</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-value">${data.summary.total_cycles}</span>
+                    <span class="summary-label">Total Cycles</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-value" style="font-size: 1.5rem;">${data.summary.largest_tree_root || 'N/A'}</span>
+                    <span class="summary-label">Largest Root</span>
+                </div>
+            `;
+
+            let showWarning = false;
+            if (data.invalid_entries.length > 0) {
+                invalidEntriesDiv.innerHTML = `
+                    <div class="warning-title">Invalid Entries</div>
+                    ${data.invalid_entries.map(e => `<span class="node-tag">${e}</span>`).join('')}
+                `;
+                showWarning = true;
+            } else {
+                invalidEntriesDiv.innerHTML = '';
+            }
+
+            if (data.duplicate_edges.length > 0) {
+                duplicateEdgesDiv.innerHTML = `
+                    <div class="warning-title">Duplicate Edges</div>
+                    ${data.duplicate_edges.map(e => `<span class="node-tag">${e}</span>`).join('')}
+                `;
+                showWarning = true;
+            } else {
+                duplicateEdgesDiv.innerHTML = '';
+            }
+            warningSection.style.display = showWarning ? 'block' : 'none';
+
+            hierarchyList.innerHTML = data.hierarchies.map(h => {
+                const isCycle = h.has_cycle;
+                return `
+                    <div class="hierarchy-card">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-weight: 700; font-size: 1.2rem;">Root: ${h.root}</span>
+                            <div>
+                                ${isCycle ? '<span class="badge badge-cycle">Cycle Detected</span>' : `<span class="badge badge-depth">Depth: ${h.depth}</span>`}
+                            </div>
+                        </div>
+                        ${!isCycle ? `<div class="tree-view">${renderTree(h.tree)}</div>` : '<p style="color: var(--text-muted); margin-top: 1rem;">Nodes in this component form a cycle.</p>'}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTree(tree) {
+            let html = '';
+            for (const root in tree) {
+                html += `<div class="tree-root"><strong>${root}</strong></div>`;
+                html += renderNodes(tree[root]);
+            }
+            return html;
+        }
+
+        function renderNodes(nodes) {
+            let html = '';
+            for (const key in nodes) {
+                html += `<div class="tree-node">
+                    <span>${key}</span>
+                    ${Object.keys(nodes[key]).length > 0 ? renderNodes(nodes[key]) : ''}
+                </div>`;
+            }
+            return html;
+        }
+    </script>
+</body>
+</html>
