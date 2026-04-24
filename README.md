@@ -1,6 +1,5 @@
 # 🚀 BFHL Hierarchy Processor
 
-![Project Mockup](assets/mockup.png)
 
 ## 🌟 Overview
 **BFHL Hierarchy Processor** is a high-performance, full-stack application designed to process complex string-based edge relationships. It validates input, detects duplicate edges, identifies cyclic dependencies, and visualizes data as nested tree structures. 
