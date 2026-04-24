@@ -95,4 +95,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Roll No**: RA2311003050204
 
 ---
-*Developed for SRM Institute of Science and Technology*
+*Developed for Bajaj Finserv Health Limited*
