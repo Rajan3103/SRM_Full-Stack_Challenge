@@ -1,5 +1,6 @@
 # 🚀 BFHL Hierarchy Processor
 
+![Banner](assets/banner.png)
 
 ## 🌟 Overview
 **BFHL Hierarchy Processor** is a high-performance, full-stack application designed to process complex string-based edge relationships. It validates input, detects duplicate edges, identifies cyclic dependencies, and visualizes data as nested tree structures. 
@@ -28,6 +29,12 @@ Built for the **SRM Full-Stack Challenge**, this project showcases a seamless in
 - **HTML5** & **Vanilla CSS3** (Modern Glassmorphism)
 - **JavaScript (ES6+)** with Fetch API
 - **Google Fonts** (Outfit)
+
+---
+
+## 📸 Screenshots
+### Dashboard Preview
+![Mockup](assets/mockup.png)
 
 ---
 
@@ -80,10 +87,22 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ```json
 {
   "user_id": "karthig_Rajan_S_31032005",
-  "hierarchies": [...],
+  "hierarchies": [
+    {
+      "node": "A",
+      "children": [
+        { "node": "B", "children": [...] },
+        { "node": "C", "children": [] }
+      ]
+    }
+  ],
   "invalid_entries": [],
   "duplicate_edges": [],
-  "summary": { ... }
+  "summary": {
+    "total_nodes": 4,
+    "total_edges": 3,
+    "is_cyclic": false
+  }
 }
 ```
 
@@ -93,6 +112,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 **Karthig Rajan S**
 - **Email**: kr4505@srmist.edu.in
 - **Roll No**: RA2311003050204
+- **LinkedIn**: [Karthig Rajan S](https://www.linkedin.com/in/karthig-rajan-s/)
 
 ---
 *Developed for Bajaj Finserv Health Limited*
